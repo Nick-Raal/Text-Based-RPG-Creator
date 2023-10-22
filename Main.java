@@ -15,36 +15,30 @@ class Main {
       System.out.println("useless catch");
     }
     
-
+    
     String s = "";
     while(!s.equals("exit")){
       System.out.println("Do you want to create an enemy or an item?");
       s = scan.nextLine();
-      if(s.toLowerCase().equals("item")){
-        writeItem();
-        try{
-          FileWriter fw = new FileWriter(f);
-          fw.write("\n");
-          fw.close();
-        }catch(Exception e){
-          System.out.println(e);
-        }
-      }else if(s.toLowerCase().equals("enemy")){
-        writeEnemy();
-        try{
-          FileWriter fw = new FileWriter(f);
-          fw.write("\n");
-          fw.close();
-        }catch(Exception e){
-          System.out.println(e);
-        }
-      }
-    }
-  }
+      try{
+        FileWriter fw = new FileWriter(f, true);
+        if(s.toLowerCase().equals("item")){
+            fw.write(writeItem());
+            fw.write("\n");
+          }else if(s.toLowerCase().equals("enemy")){
+            fw.write(writeEnemy());
+            fw.write("\n");
 
-  private static void writeEnemy(){
-    try{
-      FileWriter fw = new FileWriter(f);
+        
+        }
+        fw.close();
+      }catch(Exception e){
+        System.out.println(e);
+      }
+  }
+  }
+  private static String writeEnemy(){
+      String output = "";
       System.out.println("Name?");
       String name = scan.nextLine();
       System.out.println("Health?");
@@ -53,7 +47,7 @@ class Main {
       double init = Double.parseDouble(scan.nextLine());
       System.out.println("Attack Modifier?");
       double atkMod = Double.parseDouble(scan.nextLine());
-      fw.write(name + " " + health + " " + init + " " + atkMod + " ");
+      output = name + " " + health + " " + init + " " + atkMod;
       String next = "";
       while(true){
         System.out.println("weapons: (type exit to exit)");
@@ -61,61 +55,54 @@ class Main {
         if(next.toLowerCase().equals("exit")){
           break;
         }
-        fw.write(" ");
-        writeWeapon();
+        output += " " + writeWeapon();
       }
       for(int i = 0; i < 4; i++){
         System.out.println("Armor #" + i);
-        fw.write(" ");
-        writeArmor();
+        output += " " + writeArmor();
       }
       System.out.println("Gold?");
       double gold = Double.parseDouble(scan.nextLine());
       System.out.println("Exp?");
       double exp = Double.parseDouble(scan.nextLine());
-      fw.write(gold + " " + exp);
+      output += gold + " " + exp;
       System.out.println("item drops? (Y/N)");
       next = scan.nextLine();
       if(next.toUpperCase().equals("N")){
-        return;
+        return output;
       }
       next = "";
       int n = 0;
       while(!next.equals("exit")){
         System.out.println("EXIT?");
         next = scan.nextLine();
-        fw.write(" ");
-        writeItem();
+        output += " " + writeItem();
         n++;
       }
       System.out.println("drop chances:");
       for(int i = 0; i < n; i++){
         System.out.println("drop chances for item #" + (i+1));
-        fw.write(" " + Double.parseDouble(scan.nextLine()));
+        output += " " + Double.parseDouble(scan.nextLine());
       }
-      fw.close();
-    }catch(Exception e){
-      System.out.println(e);
-    }
+    return output;
   }
-  private static void writeItem(){
+  private static String  writeItem(){
       System.out.println("What are you trying to create?");
       String s = scan.nextLine();
       if(s.toLowerCase().equals("potion")){
-        writePotion();
+        return writePotion();
       }else if(s.toLowerCase().equals("weapon")){
-        writeWeapon();
+        return writeWeapon();
       }else if (s.toLowerCase().equals("armor")){
-        writeArmor();
+        return writeArmor();
       }else if(s.toLowerCase().equals("book")){
-        writeBook();
+        return writeBook();
       }
-      
+      return null;
   }
 
-  private static void writeArmor(){
-    try{
-      FileWriter fw = new FileWriter(f);
+  private static String writeArmor(){
+
       System.out.println("Name?");
       String name = scan.nextLine();
       name = name.replaceAll(" ", "_");
@@ -129,16 +116,11 @@ class Main {
       int type = Integer.parseInt(scan.nextLine());
       System.out.println("Slot?");
       int slot = Integer.parseInt(scan.nextLine());
-      fw.write("ä"+name + " " + armor + " " + type + " " + slot + " " + value + " " + rarity);
-      fw.close();
-    }catch(Exception e){
-      System.out.println(e);
-    }
+      return "ä"+name + " " + armor + " " + type + " " + slot + " " + value + " " + rarity;
   }
 
-  private static void writeWeapon(){
-    try{
-      FileWriter fw = new FileWriter(f);
+  private static String writeWeapon(){
+
       System.out.println("Name?");
       String name = scan.nextLine();
       name = name.replaceAll(" ", "_");
@@ -152,17 +134,13 @@ class Main {
       int type = Integer.parseInt(scan.nextLine());
       System.out.println("Article?");
       String demo = scan.nextLine();
-      fw.write("ẅ" + name + " " + damage + " " + type + " " + rarity + " " + value + " " + demo);
-      fw.close();
-    }catch(Exception e){
-      System.out.println(e);
-    }
+      return "ẅ" + name + " " + damage + " " + type + " " + rarity + " " + value + " " + demo;
+
     
   }
 
-  private static void writePotion(){
-    try{
-      FileWriter fw = new FileWriter(f);
+  private static String writePotion(){
+
       System.out.println("Name?");
       String name = scan.nextLine();
       System.out.println("Value?");
@@ -175,16 +153,11 @@ class Main {
       double strE = Double.parseDouble(scan.nextLine());
       System.out.println("Mana Effect?");
       double manaE = Double.parseDouble(scan.nextLine());
-      fw.write("Ṗ" + name.replaceAll(" ", "_") + " " + value + " " + rarity + " " + healthE + " " + strE + " " + manaE );
-      fw.close();
-    }catch(Exception e){
-      System.out.println(e);
-    }
+      return "Ṗ" + name.replaceAll(" ", "_") + " " + value + " " + rarity + " " + healthE + " " + strE + " " + manaE ;
+
   }
 
-  private static void writeBook(){
-    try{
-      FileWriter fw = new FileWriter(f);
+  private static String writeBook(){
       System.out.println("Name?");
       String name = scan.nextLine();
       name = name.replaceAll(" ", "_");
@@ -201,10 +174,7 @@ class Main {
       System.out.println("Body?");
       String body = scan.nextLine();
       body = body.replaceAll(" ", "_");
-      fw.write("ḃ" + name +" " + value + " " + rarity + " " + healthE + " " + strE + " " + manaE +" " +body );
-      fw.close();
-    }catch(Exception e){
-      System.out.println(e);
-    }
+      return "ḃ" + name +" " + value + " " + rarity + " " + healthE + " " + strE + " " + manaE +" " +body ;
+
   }
 }
