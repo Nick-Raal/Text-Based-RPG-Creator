@@ -55,9 +55,18 @@ class Main {
         }
         output += " " + writeEnemyWeapon();
       }
+      System.out.println("repeat?");
+      boolean repeat = scan.nextLine().toLowerCase().equals("yes");
       for(int i = 0; i < 4; i++){
         System.out.println("Armor #" + i);
-        output += " " + writeEnemyArmor();
+        String s = writeEnemyArmor();
+        output += " " + s;
+        if(repeat){
+          for(int j = 0; j< 3; j++){
+            output += " " + s;
+          }
+          break;
+        }
       }
       System.out.println("Gold?");
       double gold = Double.parseDouble(scan.nextLine());
@@ -131,7 +140,6 @@ class Main {
   }
 
   private static String writeWeapon(){
-
       System.out.println("Name?");
       String name = scan.nextLine();
       name = name.replaceAll(" ", "_");
