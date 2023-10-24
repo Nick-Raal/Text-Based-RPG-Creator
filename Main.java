@@ -28,8 +28,6 @@ class Main {
           }else if(s.toLowerCase().equals("enemy")){
             fw.write(writeEnemy());
             fw.write("\n");
-
-        
         }
         fw.close();
       }catch(Exception e){
@@ -55,17 +53,17 @@ class Main {
         if(next.toLowerCase().equals("exit")){
           break;
         }
-        output += " " + writeWeapon();
+        output += " " + writeEnemyWeapon();
       }
       for(int i = 0; i < 4; i++){
         System.out.println("Armor #" + i);
-        output += " " + writeArmor();
+        output += " " + writeEnemyArmor();
       }
       System.out.println("Gold?");
       double gold = Double.parseDouble(scan.nextLine());
       System.out.println("Exp?");
       double exp = Double.parseDouble(scan.nextLine());
-      output += gold + " " + exp;
+      output += " " + gold + " " + exp;
       System.out.println("item drops? (Y/N)");
       next = scan.nextLine();
       if(next.toUpperCase().equals("N")){
@@ -102,7 +100,6 @@ class Main {
   }
 
   private static String writeArmor(){
-
       System.out.println("Name?");
       String name = scan.nextLine();
       name = name.replaceAll(" ", "_");
@@ -114,9 +111,23 @@ class Main {
       double armor = Double.parseDouble(scan.nextLine());
       System.out.println("Type?");
       int type = Integer.parseInt(scan.nextLine());
+      int slot = 0;
+    
       System.out.println("Slot?");
-      int slot = Integer.parseInt(scan.nextLine());
+      slot = Integer.parseInt(scan.nextLine());
+
       return "ä"+name + " " + armor + " " + type + " " + slot + " " + value + " " + rarity;
+  }
+
+  private static String writeEnemyArmor(){
+    System.out.println("Name?");
+    String name = scan.nextLine();
+    name = name.replaceAll(" ", "_");
+    System.out.println("Armour?");
+    double armor = Double.parseDouble(scan.nextLine());
+    System.out.println("Type?");
+    int type = Integer.parseInt(scan.nextLine());
+    return "ä"+name + " " + armor + " " + type;
   }
 
   private static String writeWeapon(){
@@ -137,6 +148,19 @@ class Main {
       return "ẅ" + name + " " + damage + " " + type + " " + rarity + " " + value + " " + demo;
 
     
+  }
+
+  private static String writeEnemyWeapon(){
+    System.out.println("Name?");
+    String name = scan.nextLine();
+    name = name.replaceAll(" ", "_");
+    System.out.println("Damage?");
+    double damage = Double.parseDouble(scan.nextLine());
+    System.out.println("Type?");
+    int type = Integer.parseInt(scan.nextLine());
+    System.out.println("Chance?");
+    double chance = Double.parseDouble(scan.nextLine());
+    return "ẅ" + name + " " + damage + " " + type + " " + chance;
   }
 
   private static String writePotion(){
