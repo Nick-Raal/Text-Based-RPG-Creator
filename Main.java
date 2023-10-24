@@ -45,7 +45,7 @@ class Main {
       double init = Double.parseDouble(scan.nextLine());
       System.out.println("Attack Modifier?");
       double atkMod = Double.parseDouble(scan.nextLine());
-      output = name + " " + health + " " + init + " " + atkMod;
+      output = name.replaceAll(" ", "_") + " " + health + " " + init + " " + atkMod;
       String next = "";
       while(true){
         System.out.println("weapons: (type exit to exit)");
